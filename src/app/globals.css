@@ -25,3 +25,47 @@ body {
     text-wrap: balance;
   }
 }
+
+
+
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  padding: 20px;
+}
+
+.calendar-container, .task-list-container {
+  flex: 1;
+  margin: 10px;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.day {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.today {
+  background-color: #f0f8ff;
+}
+
+.task {
+  margin: 5px 0;
+}
+
+.completed {
+  text-decoration: line-through;
+}
