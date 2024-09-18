@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { PopoverDemo } from '@/ui/calendar/CalendarAddNew';
 
 export function generateCalendarDays(year: number, month: number) {
     const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -60,12 +61,13 @@ function CalendarRow(
                 const month = new Date(day.fullDate).getMonth() + 1;
                 const isFirstDayOfMonth = date === 1;
                 return (
-                    <div key={index} className="border border-gray-200 flex flex-col items-center justify-start pt-2">
-                        {isFirst ? <p className="pb-2">{weekName[index]}</p> : ''}
-                        {isFirstDayOfMonth ? <p className="text-sm">{`${month}月${date}日`}</p> : <p className="text-sm">{`${date}`}</p>}
-                        {/* <p>{day.fullDate}</p> */}
-                        
-                    </div>
+                    <PopoverDemo key={index}>
+                        <div key={index} className="border border-gray-200 flex flex-col items-center justify-start pt-2">
+                            {isFirst ? <p className="pb-2">{weekName[index]}</p> : ''}
+                            {isFirstDayOfMonth ? <p className="text-sm">{`${month}月${date}日`}</p> : <p className="text-sm">{`${date}`}</p>}
+                            {/* <p>{day.fullDate}</p> */}
+                        </div>
+                    </PopoverDemo>
                 );
             })}
         </div>

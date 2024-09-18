@@ -1,6 +1,25 @@
 import { Task } from '@/lib/definitions';
 import { useState } from 'react';
 
+function TaskShow({ task }: { task: Task }) {
+    const today = new Date();
+    const createdAt = new Date(task.createdAt);
+    const timeDifference = today.getTime() - createdAt.getTime();
+
+    const overdueDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+    return (
+        <div>
+        {task.name}
+        {!task.isCompleted && overdueDays > 0 && (
+            <p className='text-sm text-red-500'>
+                （超时 {overdueDays} 天）
+            </p>
+        )}
+        </div>
+    );
+}
+
 export function TaskList({ tasks }: { tasks: Task[] }) {
     const [taskList, setTaskList] = useState(tasks);
   
@@ -28,7 +47,7 @@ export function TaskList({ tasks }: { tasks: Task[] }) {
               onClick={() => handleTaskClick(task)}
               className="ml-2 cursor-pointer"
             >
-              {task.name}
+              <TaskShow task={task} />
             </span>
           </li>
         ))}

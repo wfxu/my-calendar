@@ -1,61 +1,132 @@
-import { Button } from "@/components/ui/button"
+import { useForm } from "react-hook-form"
+// import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+  } from "@/components/ui/form"
+import { useState } from "react"
+import { Task } from "@/lib/definitions"
 
-export function PopoverDemo() {
+function TaskForm() {
+    const form = useForm()
+    return (
+        <Form{...form}>
+          <form className="space-y-8">
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+              <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+              <Input placeholder="shadcn" {...field} />
+              </FormControl>
+              <FormDescription>This is your public display name.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+          />
+          </form>
+        </Form>
+    )
+
+}
+
+export function MyForm( {task}: {task?: Task}) {
+
+  const [formData, setFormData] = useState<Task>({
+    name: task?.name || '',
+    createdAt: task?.createdAt || new Date(),
+    status: task?.isCompleted || '',
+    content: task?.content || '',
+  });
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+    // 处理表单提交逻辑
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="name">任务名称:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="请输入任务名称"
+        />
+      </div>
+      <div>
+        <label htmlFor="date">任务日期:</label>
+        <input
+          type="date"
+          id="date"
+          name="date"
+          value={formData.createdAt}
+          onChange={handleChange}
+          placeholder="请选择任务日期"
+        />
+      </div>
+      <div>
+        <label htmlFor="status">任务状态:</label>
+        <select
+          id="status"
+          name="status"
+          value={formData.isCompleted}
+          onChange={handleChange}
+        >
+          <option value="">请选择任务状态</option>
+          <option value="pending">待处理</option>
+          <option value="in-progress">进行中</option>
+          <option value="completed">已完成</option>
+        </select>
+      </div>
+      <div>
+        <label htmlFor="content">任务内容:</label>
+        <textarea
+          id="content"
+          name="content"
+          value={formData.content}
+          onChange={handleChange}
+          placeholder="请输入任务内容"
+        />
+      </div>
+      <button type="submit">提交</button>
+    </form>
+  );
+};
+
+export function PopoverDemo({ children }: { children: React.ReactNode}) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline">添加新任务</Button>
+            {children}
       </PopoverTrigger>
-      <PopoverContent className="w-80">
-        <div className="grid gap-4">
-          <div className="space-y-2">
-            <h4 className="font-medium leading-none">Dimensions</h4>
-            <p className="text-sm text-muted-foreground">
-              Set the dimensions for the layer.
-            </p>
-          </div>
-          <div className="grid gap-2">
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="width">Width</Label>
-              <Input
-                id="width"
-                defaultValue="100%"
-                className="col-span-2 h-8"
-              />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="maxWidth">Max. width</Label>
-              <Input
-                id="maxWidth"
-                defaultValue="300px"
-                className="col-span-2 h-8"
-              />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="height">Height</Label>
-              <Input
-                id="height"
-                defaultValue="25px"
-                className="col-span-2 h-8"
-              />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="maxHeight">Max. height</Label>
-              <Input
-                id="maxHeight"
-                defaultValue="none"
-                className="col-span-2 h-8"
-              />
-            </div>
-          </div>
-        </div>
+      <PopoverContent>
+        <MyForm />
       </PopoverContent>
     </Popover>
   )

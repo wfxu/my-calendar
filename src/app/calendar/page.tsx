@@ -1,9 +1,17 @@
 'use client'
 
 import CalendarLayout from '@/ui/calendar/CalendarLayout'
-import { PopoverDemo } from '@/ui/calendar/CalendarAddNew';
+// import { PopoverDemo } from '@/ui/calendar/CalendarAddNew';
 import { getTodayCompletedTasks, getMonthCompletedTasks, getUncompletedTasks, getPendingTasks } from '@/lib/data'
 import { TaskList } from '@/ui/calendar/CalendarList';
+
+export function addNew() {
+    return (
+        <div>
+            添加新任务
+        </div>
+    )
+}
 
 export default function Page() {
     return (
@@ -13,7 +21,7 @@ export default function Page() {
                 <div className="h-10 items-center justify-center m-4">
                     <p>任务列表</p>
                     <div className="border-t-2 border-gray-100 mt-1 w-2/5"></div>
-                    <PopoverDemo />
+                    <div>添加新任务</div>
                 </div>
                 <div className="border-t-2 border-gray-100 mx-1"></div>
                 <div className="items-start justify-center m-4 space-y-2">
