@@ -18,30 +18,6 @@ import {
 import { useState } from "react"
 import { Task } from "@/lib/definitions"
 
-function TaskForm() {
-    const form = useForm()
-    return (
-        <Form{...form}>
-          <form className="space-y-8">
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-              <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-              <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>This is your public display name.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-          />
-          </form>
-        </Form>
-    )
-
-}
 
 export function MyForm( {task}: {task?: Task}) {
 
