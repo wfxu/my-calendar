@@ -1,17 +1,8 @@
 'use client'
 
 import CalendarLayout from '@/ui/calendar/CalendarLayout'
-// import { PopoverDemo } from '@/ui/calendar/CalendarAddNew';
 import { getTodayCompletedTasks, getMonthCompletedTasks, getUncompletedTasks, getPendingTasks } from '@/lib/data'
 import { TaskList } from '@/ui/calendar/CalendarList';
-
-// export function addNew() {
-//     return (
-//         <div>
-//             添加新任务
-//         </div>
-//     )
-// }
 
 export default function Page() {
     return (
