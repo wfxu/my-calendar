@@ -6,3 +6,10 @@ export interface Task {
     isCompleted: boolean;
     completedAt?: Date;
   }
+
+export interface TaskFomr {
+    name: string;
+    content: string;
+    createdAt: Date;
+    isCompleted: boolean;
+}

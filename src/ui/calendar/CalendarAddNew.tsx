@@ -5,16 +5,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-import { useState } from "react"
-import { Task } from "@/lib/definitions"
+import { useState, ChangeEvent, FormEvent } from "react"
+import { TaskFomr } from "@/lib/definitions"
 
 
-export function MyForm( {task}: {task?: Task}) {
+export function MyForm( {task}: {task?: TaskFomr}) {
 
-  const [formData, setFormData] = useState<Task>({
+  const [formData, setFormData] = useState<TaskFomr>({
     name: task?.name || '',
     createdAt: task?.createdAt || new Date(),
-    status: task?.isCompleted || '',
+    isCompleted: task?.isCompleted || false,
     content: task?.content || '',
   });
 
@@ -51,7 +51,7 @@ export function MyForm( {task}: {task?: Task}) {
           type="date"
           id="date"
           name="date"
-          value={formData.createdAt}
+          value={formData.createdAt.toISOString().split('T')[0]}
           onChange={handleChange}
           placeholder="请选择任务日期"
         />
@@ -61,7 +61,7 @@ export function MyForm( {task}: {task?: Task}) {
         <select
           id="status"
           name="status"
-          value={formData.isCompleted}
+          value={formData.isCompleted.toString()}
           onChange={handleChange}
         >
           <option value="">请选择任务状态</option>
