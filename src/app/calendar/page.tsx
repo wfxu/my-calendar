@@ -5,13 +5,13 @@ import CalendarLayout from '@/ui/calendar/CalendarLayout'
 import { getTodayCompletedTasks, getMonthCompletedTasks, getUncompletedTasks, getPendingTasks } from '@/lib/data'
 import { TaskList } from '@/ui/calendar/CalendarList';
 
-export function addNew() {
-    return (
-        <div>
-            添加新任务
-        </div>
-    )
-}
+// export function addNew() {
+//     return (
+//         <div>
+//             添加新任务
+//         </div>
+//     )
+// }
 
 export default function Page() {
     return (
