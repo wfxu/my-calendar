@@ -10,6 +10,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { CardWithForm } from "@/ui/AddNew"
+
 
 function formatDate(date: Date) {
   return date.toLocaleDateString('zh-CN', {
@@ -21,16 +28,26 @@ function formatDate(date: Date) {
 }
 
 function Detail({isFirst, dateString}: {isFirst: boolean, dateString: string}) {
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
   const date = new Date(dateString)
   const month: number = date.getMonth() + 1
   const day: number = date.getDate()
   const weekDay: number = date.getDay()
   const weekNames: string[] = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
   const dateDispaly: string = day == 1 ? `${month}月${day}日` : `${day}`
+  const isToday: boolean = date.toDateString() === new Date().toDateString()
   return (
-    <div className="flex flex-col w-full items-center justify-start border border-gray-200 border-t-0 border-l-0"> 
-      {isFirst ? <p className="pb-2">{weekNames[weekDay]}</p> : ''}
-      <p className="text-sm">{`${dateDispaly}`}</p>
+    <div className={`flex flex-col w-full border border-gray-200 border-t-0 border-l-0 ${isToday ? 'bg-gray-200' : ''}`}> 
+      <Popover key={dateString} open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+        <PopoverTrigger className="flex flex-col w-full h-full items-center justify-start " onClick={() => setIsPopoverOpen(true)}>
+          {isFirst ? <p className="pb-2">{weekNames[weekDay]}</p> : ''}
+          <p className="text-sm">{dateDispaly}</p>
+        </PopoverTrigger>
+        <PopoverContent className="p-0 border-none shadow-none bg-transparent">
+          <CardWithForm dateString={dateString} onCancel={() => setIsPopoverOpen(false)} />
+        </PopoverContent>
+      </Popover>
     </div>
   )
 }
@@ -58,13 +75,18 @@ export default function Page() {
       }
   };
 
+  const handleToday = () => {
+    setYear(today.getFullYear())
+    setMonth(today.getMonth())
+  }
+
   const calenderDayList: string[] = []
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const firstDayOfWeek = new Date(year, month, 1).getDay();
-  const lastDayOfweek = new Date(year, month, 0).getDay();
+  const firstDayOMonth = new Date(year, month, 1).getDay();
+  const lastDayOfMonth = new Date(year, month + 1, 0).getDay();
   const daysInPrevMonth = new Date(year, month, 0).getDate();
   // Add days from the previous month
-  for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+  for (let i = firstDayOMonth - 1; i >= 0; i--) {
       const prevMonthDate = new Date(year, month - 1, daysInPrevMonth - i);
       calenderDayList.push(formatDate(prevMonthDate));
   }
@@ -74,34 +96,39 @@ export default function Page() {
       calenderDayList.push(formatDate(currentDate));
   }
   // Add days from the next month
-  for (let i = lastDayOfweek + 1; i <= 6; i++) {
-    const nextMonthDate = new Date(year, month +1, i-lastDayOfweek)
+  for (let i = lastDayOfMonth + 1; i <= 6; i++) {
+    const nextMonthDate = new Date(year, month +1, i-lastDayOfMonth)
     calenderDayList.push(formatDate(nextMonthDate))
   }
+
+  const weekLength = Math.floor(calenderDayList.length / 7)
 
   return (
     <div className="flex h-screen items-center justify-center p-10">
       <div className="flex h-full w-full flex-row space-x-4 p-4">
-        <div className="flex h-full w-full basis-4/5 flex-col border-2 border-gray-200">
-          <div className="basis-1/12 flex flex-row items-center justify-center">
+        <div className="flex h-full w-full md:basis-4/5 basis-full flex-col border-2 border-gray-200">
+          <div className="basis-1/12 flex flex-row items-center justify-center space-x-8">
+            <Button variant="secondary"onClick={handleToday}>
+              今天
+            </Button>
             <Button variant="ghost" size="icon" title="上个月" onClick={handlePrevMonth}>
               <ChevronLeft className="h-4 w-4" />
             </Button>
-            <div className="flex flex-col items-center justify-center mx-10">
-              <p className="text-base">{formatDate(today)}</p>
+            <div className="flex flex-col items-center justify-center">
+              <p className="text-base">{year}年{month + 1}月</p>
             </div>
               <Button variant="ghost" size="icon" title="下个月" onClick={handleNextMonth}>
                 <ChevronRight className="h-4 w-4" />
               </Button>
           </div>
           <div className="border border-gray-200"></div>
-          <div className="grid w-full grow grid-cols-7 grid-rows-5 justify-items-center">
+          <div className={`grid w-full grow grid-cols-7 grid-rows-${weekLength} justify-items-center`}>
             {calenderDayList.map((day, index) =>
               <Detail key={index} isFirst={index < 7} dateString={day} /> 
             )}
           </div>
         </div>
-        <div className="flex h-full w-full basis-1/5 flex-col border-2 border-gray-200">
+        <div className="hidden md:flex h-full w-full basis-1/5 flex-col border-2 border-gray-200 shadow-md">
           <div className="basis-1/12 flex justify-start items-center px-4">
             <p>任务情况</p>
           </div>
@@ -109,20 +136,26 @@ export default function Page() {
           <Accordion type="single" defaultValue="item-2" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger className="px-4">当月任务情况</AccordionTrigger>
-              <AccordionContent className="px-4">
-                Yes. It adheres to the WAI-ARIA design pattern.
+              <AccordionContent className="px-4 flex flex-col">
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger className="px-4">当日完成情况</AccordionTrigger>
               <AccordionContent className="px-4">
-                Yes. It adheres to the WAI-ARIA design pattern.
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3">
               <AccordionTrigger className="px-4">未完成情况</AccordionTrigger>
               <AccordionContent className="px-4">
-                Yes. It adheres to the WAI-ARIA design pattern.
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
