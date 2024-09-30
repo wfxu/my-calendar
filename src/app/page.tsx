@@ -36,7 +36,7 @@ function Detail({isFirst, dateString}: {isFirst: boolean, dateString: string}) {
   const weekDay: number = date.getDay()
   const weekNames: string[] = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
   const dateDispaly: string = day == 1 ? `${month}月${day}日` : `${day}`
-  const isToday: boolean = date.toDateString() === new Date().toDateString()
+  const isToday: boolean = dateString === formatDate(new Date())
   return (
     <div className={`flex flex-col w-full border border-gray-200 border-t-0 border-l-0 ${isToday ? 'bg-gray-200' : ''}`}> 
       <Popover key={dateString} open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
