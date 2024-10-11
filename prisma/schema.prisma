@@ -1,0 +1,34 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  name  String
+  email String  @unique
+  tasks     Task[]
+}
+
+model Task {
+  id                Int      @id @default(autoincrement()) // 任务ID
+  name              String  // 任务名称
+  content           String  // 任务内容
+  createdAt         DateTime @default(now()) // 任务创建时间
+  plannedCompletion DateTime // 任务计划完成时间
+  actualCompletion  DateTime? // 任务实际完成时间
+  status            String  // 任务状态
+  overdueTime       DateTime? // 任务超时时间
+  user              User     @relation(fields: [userId], references: [id]) // 关联用户
+  userId            Int // 用户ID
+}
