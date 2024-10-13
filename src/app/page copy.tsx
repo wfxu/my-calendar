@@ -3,13 +3,20 @@ import { useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import { ChevronRight, ChevronLeft } from "lucide-react"
+import { Separator } from "@/components/ui/separator"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { CardWithForm } from "@/ui/AddNew"
-import TaskDetailList from "@/ui/TaskDetail"
+
 
 function formatDate(date: Date) {
   return date.toLocaleDateString('zh-CN', {
@@ -121,7 +128,38 @@ export default function Page() {
             )}
           </div>
         </div>
-        <TaskDetailList />
+        <div className="hidden md:flex h-full w-full basis-1/5 flex-col border-2 border-gray-200 shadow-md">
+          <div className="basis-1/12 flex justify-start items-center px-4">
+            <p>任务情况</p>
+          </div>
+          <Separator/>
+          <Accordion type="single" defaultValue="item-2" collapsible>
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="px-4">当月任务情况</AccordionTrigger>
+              <AccordionContent className="px-4 flex flex-col">
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger className="px-4">当日完成情况</AccordionTrigger>
+              <AccordionContent className="px-4">
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger className="px-4">未完成情况</AccordionTrigger>
+              <AccordionContent className="px-4">
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
       </div>
     </div>
 
