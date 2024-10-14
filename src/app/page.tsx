@@ -1,13 +1,9 @@
 'use client'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 import { Button } from "@/components/ui/button"
 import { ChevronRight, ChevronLeft } from "lucide-react"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { CardWithForm } from "@/ui/AddNew"
 import TaskDetailList from "@/ui/TaskDetail"
 
@@ -20,7 +16,7 @@ function formatDate(date: Date) {
   }).replace(/\//g, '-');
 }
 
-function Detail({isFirst, dateString}: {isFirst: boolean, dateString: string}) {
+function Detail({isFirst, dateString, onFresh}: {isFirst: boolean, dateString: string, onFresh: () => void}) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   const date = new Date(dateString)
@@ -38,7 +34,7 @@ function Detail({isFirst, dateString}: {isFirst: boolean, dateString: string}) {
           <p className="text-sm">{dateDispaly}</p>
         </PopoverTrigger>
         <PopoverContent className="p-0 border-none shadow-none bg-transparent">
-          <CardWithForm dateString={dateString} onClose={() => setIsPopoverOpen(false)} />
+          <CardWithForm dateString={dateString} onClose={() => setIsPopoverOpen(false)} onFresh={onFresh}/>
         </PopoverContent>
       </Popover>
     </div>
@@ -96,6 +92,12 @@ export default function Page() {
 
   const weekLength = Math.floor(calenderDayList.length / 7)
 
+  const [fresh, setFresh] = useState(false)
+
+  useEffect(() => {
+    setFresh(true)
+  }, [fresh])
+
   return (
     <div className="flex h-screen items-center justify-center p-10">
       <div className="flex h-full w-full flex-row space-x-4 p-4">
@@ -117,11 +119,11 @@ export default function Page() {
           <div className="border border-gray-200"></div>
           <div className={`grid w-full grow grid-cols-7 grid-rows-${weekLength} justify-items-center`}>
             {calenderDayList.map((day, index) =>
-              <Detail key={index} isFirst={index < 7} dateString={day} /> 
+              <Detail key={index} isFirst={index < 7} dateString={day} onFresh={() => setFresh(!fresh)}/> 
             )}
           </div>
         </div>
-        <TaskDetailList />
+        <TaskDetailList Fresh={fresh}/>
       </div>
     </div>
 

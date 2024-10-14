@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-export function CardWithForm( {dateString, onClose}: {dateString: string, onClose: () => void}) {
+export function CardWithForm( {dateString, onClose, onFresh}: {dateString: string, onClose: () => void, onFresh: () => void}) {
   const [formData, setFormData] = useState({
     name: '',
     content: '',
@@ -50,6 +50,7 @@ export function CardWithForm( {dateString, onClose}: {dateString: string, onClos
       const result = await response.json();
       console.log('Task created successfully:', result);
       onClose();
+      onFresh();
       // Optionally, you can add more logic here, like clearing the form or showing a success message
     } catch (error) {
       console.error('Error creating task:', error);

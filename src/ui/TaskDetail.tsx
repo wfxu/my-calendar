@@ -7,6 +7,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import dayjs from 'dayjs';
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Button } from "@/components/ui/button"
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 interface Task {
   id: number;
@@ -31,7 +35,65 @@ interface TodayTasks {
   overdueTasks: Task[];
 }
 
-export default function TaskDetailList() {
+
+function TaskList(
+  { 
+    tasks,
+  }: { 
+    tasks: Task[]
+  }
+) {
+ 
+
+  return (
+    <div>
+      {tasks.map((task) => (
+        <Popover key={task.id}>
+          <PopoverTrigger asChild>
+            <Button variant="outline">
+              {task.name}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-80">
+            <form>
+              <div className="grid gap-4">
+                <div className="space-y-2">
+                  <h4 className="font-medium leading-none">Edit Task</h4>
+                </div>
+                <div className="grid gap-2">
+                  <div className="grid grid-cols-3 items-center gap-4">
+                    <Label htmlFor="name">Name</Label>
+                    <Input id="name" className="col-span-2 h-8" />
+                  </div>
+                  <div className="grid grid-cols-3 items-center gap-4">
+                    <Label htmlFor="content">Content</Label>
+                    <Input id="content"className="col-span-2 h-8" />
+                  </div>
+                  <div className="grid grid-cols-3 items-center gap-4">
+                    <Label htmlFor="plannedCompletion">Planned Completion</Label>
+                    <Input id="plannedCompletion" type="date"className="col-span-2 h-8" />
+                  </div>
+                  <div className="grid grid-cols-3 items-center gap-4">
+                    <Label htmlFor="status">Status</Label>
+                    <Input id="status" className="col-span-2 h-8" />
+                  </div>
+                </div>
+                <div className="flex justify-end space-x-2">
+                  <Button type="button" variant="destructive">
+                    Delete
+                  </Button>
+                  <Button type="submit">Update</Button>
+                </div>
+              </div>
+            </form>
+          </PopoverContent>
+        </Popover>
+      ))}
+    </div>
+  );
+};
+
+export default function TaskDetailList( {Fresh}: {Fresh: boolean}) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [error, setError] = useState<Error | null>(null);
 
@@ -50,7 +112,7 @@ export default function TaskDetailList() {
     }
 
     fetchTasks();
-  }, []);
+  }, [Fresh]);
 
   const getMonthlyStats = (tasks: Task[]): MonthlyStats => {
     const currentMonth = dayjs().month();
@@ -104,33 +166,15 @@ export default function TaskDetailList() {
           <AccordionTrigger className="px-4">当日完成情况</AccordionTrigger>
           <AccordionContent className="px-4">
             <div>今日任务:</div>
-            {todayTasks.length > 0 ? (
-              todayTasks.map((task) => (
-                <div key={task.id}>{task.name}</div>
-              ))
-            ) : (
-              <div>无今日任务</div>
-            )}
+              <TaskList tasks={todayTasks} />
             <div>超时任务:</div>
-            {overdueTasks.length > 0 ? (
-              overdueTasks.map((task) => (
-                <div key={task.id}>{task.name} (超时 {dayjs().diff(dayjs(task.plannedCompletion), 'day')} 天)</div>
-              ))
-            ) : (
-              <div>无超时任务</div>
-            )}
+              <TaskList tasks={overdueTasks} />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-3">
           <AccordionTrigger className="px-4">未完成情况</AccordionTrigger>
           <AccordionContent className="px-4">
-            {futureTasks.length > 0 ? (
-              futureTasks.map((task) => (
-                <div key={task.id}>{task.name}</div>
-              ))
-            ) : (
-              <div>无未来任务</div>
-            )}
+            <TaskList tasks={futureTasks} />
           </AccordionContent>
         </AccordionItem>
       </Accordion>
