@@ -23,12 +23,12 @@ model User {
 model Task {
   id                Int      @id @default(autoincrement()) // 任务ID
   name              String  // 任务名称
-  content           String  // 任务内容
+  content           String?  // 任务内容（可为空）
   createdAt         DateTime @default(now()) // 任务创建时间
   plannedCompletion DateTime // 任务计划完成时间
   actualCompletion  DateTime? // 任务实际完成时间
-  status            String  // 任务状态
-  overdueTime       DateTime? // 任务超时时间
+  isCompleted       Boolean @default(false)  // 任务状态（是否完成）
+  overdueTime       Int? // 任务超时时间（天数）
   user              User     @relation(fields: [userId], references: [id]) // 关联用户
   userId            Int // 用户ID
 }

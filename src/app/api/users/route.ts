@@ -2,9 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
+
 interface ErrorWithMessage {
     message: string;
   }
+
 export async function GET(req: NextRequest) {
   try {
     console.log(req.url)
