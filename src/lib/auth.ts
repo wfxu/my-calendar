@@ -1,7 +1,7 @@
 // utils/auth.ts
 
 export async function checkLoginStatus() {
-  const res = await fetch('/api/check-login', {
+  const res = await fetch('/api/login', {
     method: 'GET',
     credentials: 'include',
   });
