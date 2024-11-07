@@ -15,8 +15,9 @@ datasource db {
 
 model User {
   id    Int     @id @default(autoincrement())
-  name  String
+  name  String  @unique
   email String  @unique
+  password String   // 新增的密码字段
   tasks     Task[]
 }
 
