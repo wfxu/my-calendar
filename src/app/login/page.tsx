@@ -21,6 +21,8 @@ export default function LoginPage() {
     });
 
     if (res.ok) {
+      console.log('Login successful');
+      console.log(res);
       router.push('/');
     } else {
       const { error } = await res.json();
