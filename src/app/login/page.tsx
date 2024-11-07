@@ -24,6 +24,7 @@ export default function LoginPage() {
       console.log('Login successful');
       console.log(res);
       router.push('/');
+      console.log('Navigating to /');
     } else {
       const { error } = await res.json();
       setError(error);
