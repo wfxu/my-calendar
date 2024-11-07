@@ -58,6 +58,7 @@ export default function CalenderBody() {
 
             const response = await fetch(`/api/tasks?${queryParams.toString()}`);
             const data = await response.json();
+            console.log(data);
             setTasks(data);
         }
 
