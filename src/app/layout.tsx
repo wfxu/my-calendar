@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useEffect } from 'react';
 import "@/ui/globals.css";
@@ -11,8 +11,8 @@ declare global {
 }
 
 type GtagFunctionArgs =
-  | ['js', Date]
-  | ['config', string, Record<string, unknown>?];
+  | { event: 'js', date: Date }
+  | { event: 'config', id: string, options?: Record<string, unknown> };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
@@ -25,13 +25,13 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     // Initialize Google Analytics
     script.onload = () => {
       window.dataLayer = window.dataLayer || [];
-      function gtag(...args: GtagFunctionArgs) {
+      function gtag(args: GtagFunctionArgs) {
         window.dataLayer.push(args);
       }
       window.gtag = gtag;
 
-      window.gtag('js', new Date());
-      window.gtag('config', 'G-D8RYGRY0ZR');
+      window.gtag({ event: 'js', date: new Date() });
+      window.gtag({ event: 'config', id: 'G-D8RYGRY0ZR' });
     };
 
     // Cleanup function to remove the script when the component is unmounted
