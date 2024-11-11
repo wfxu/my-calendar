@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.15",
@@ -32,6 +33,7 @@
     "moment": "^2.30.1",
     "next": "14.2.9",
     "next-auth": "^4.24.10",
+    "next-sitemap": "^4.2.3",
     "pg": "^8.13.0",
     "react": "^18",
     "react-big-calendar": "^1.13.4",
