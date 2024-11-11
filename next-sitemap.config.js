@@ -5,12 +5,6 @@ module.exports = {
     // ...other options
     changefreq: 'daily',
     priority: 0.7,
-    sitemapSize: 5000,
-    exclude: ['/login'],
-    robotsTxtOptions: {
-        additionalSitemaps: [
-        'https://calendar.wfxu.one/sitemap.xml',
-        ],
-    },
+    sitemapSize: 5000
   }
   

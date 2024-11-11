@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<sitemap><loc>https://calendar.wfxu.one/sitemap.xml</loc></sitemap>
-</sitemapindex>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://calendar.wfxu.one/</loc>
+    <lastmod>2024-11-11T09:57:22+00:00</lastmod>
+    <priority>1.00</priority>
+  </url>
+  <!-- Add more URLs here -->
+</urlset>
