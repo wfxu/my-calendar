@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://calendar.wfxu.com
+Host: https://calendar.wfxu.one
 
 # Sitemaps
-Sitemap: https://calendar.wfxu.com/sitemap.xml
+Sitemap: https://calendar.wfxu.one/sitemap.xml
